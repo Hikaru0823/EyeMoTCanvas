@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e34024a4254c4a246908ac7deb49e9f9, type: 3}
+  m_Name: DefaultSetting
+  m_EditorClassIdentifier: 
+  SchemaVersion: 1
+  DefaultSettings:
+    Base:
+      Type: 0
+      Material: {fileID: 2100000, guid: cf5c0fb9e504c264baef769634662556, type: 2}
+      BlendMode: 0
+      Radius:
+        Value: 0.02
+        Min: 0.001
+        Max: 0.1
+      Color: {r: 0, g: 0, b: 0, a: 1}
+      Opacity:
+        Value: 0.1
+        Min: 0
+        Max: 0.1
+      EdgeFeather:
+        Value: 0.4
+        Min: 0
+        Max: 1
+      FalloffPow:
+        Value: 2
+        Min: 1
+        Max: 5
+    SpeedVariation:
+      Enabled: 1
+      Sensitivity:
+        Value: 0.5
+        Min: 0.1
+        Max: 1
+      MinVariation:
+        Value: 0.4
+        Min: 0
+        Max: 1
+      MaxVariation:
+        Value: 0.4
+        Min: 0
+        Max: 1
+    LineInterpolation:
+      Enabled: 1
+      MaxDistance:
+        Value: 0.009
+        Min: 0.001
+        Max: 0.01
+      MaxSteps:
+        Value: 18
+        Min: 1
+        Max: 90
+    FadeAccumulation:
+      Enabled: 0
+      Material: {fileID: 2100000, guid: ad6ac8a0b62b97d44a00a7f750278ddb, type: 2}
+      Time:
+        Value: 5
+        Min: 0.1
+        Max: 20
+    Rainbow:
+      Type: 0
+      Speed:
+        Value: 0.1
+        Min: 0.1
+        Max: 5
+    Spray:
+      sprayDensity:
+        Value: 0.4
+        Min: 0
+        Max: 1
+      sprayGrainScale:
+        Value: 700
+        Min: 400
+        Max: 800
+      StrokeSpeed: 0
