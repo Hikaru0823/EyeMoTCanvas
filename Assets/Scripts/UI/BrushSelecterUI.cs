@@ -36,11 +36,11 @@ public class BrushSelecterUI : Singleton<BrushSelecterUI>
                         break;
                     case RainbowType.Gradation:
                         tipImage.enabled = true;
-                        tipImage.sprite = ColorParetUI.Instance.rainbowTypeSprites[0];
+                        tipImage.sprite = ResourcesManager.Instance.rainbowTypeSprites[0];
                         break;
                     case RainbowType.Sepalate:
                         tipImage.enabled = true;
-                        tipImage.sprite = ColorParetUI.Instance.rainbowTypeSprites[1];
+                        tipImage.sprite = ResourcesManager.Instance.rainbowTypeSprites[1];
                         break;
                 }
             }

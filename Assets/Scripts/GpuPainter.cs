@@ -36,7 +36,7 @@ public class GpuPainter : Singleton<GpuPainter>
     }
 
     [SerializeField] private BrushPreset preset;
-    public BrushSettings BrushSettings = new BrushSettings();
+    public BrushSettings BrushSettings;
 
     [Header("UI")]
     public RawImage canvasImage;        // ここに最終RTを表示
@@ -61,6 +61,7 @@ public class GpuPainter : Singleton<GpuPainter>
     Texture2D sprayNoiseTex;
     bool useAasPrev = true;
     bool isSwitched = false;
+    bool drawing = true;
 
     RenderTexture CreateRT()
     {
@@ -91,17 +92,22 @@ public class GpuPainter : Singleton<GpuPainter>
         ClearCanvas();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
             ClearCanvas();
         }
+        drawing = JudgeFromInputMode();
+    }
 
-        bool drawing = JudgeFromInputMode();
+    void FixedUpdate()
+    {
         bool isOverBlockedUI = IsPointerOverBlockedUI(); // UI上かどうかをチェック
 
-        if(BrushSettings.FadeAccumulation.Enabled) BlitfadeAccum();
+
+        if(BrushSettings.FadeAccumulation.Enabled) BlitFadeAccumulation();
+        if(BrushSettings.InkDrip.Enabled) BlitInkDrip();
 
         if (TryGetPointerUV(out var uv))
         {
@@ -369,17 +375,30 @@ public class GpuPainter : Singleton<GpuPainter>
         useAasPrev = !useAasPrev;
     }
 
-    void BlitfadeAccum()
+    void BlitFadeAccumulation()
     {
         var prev = useAasPrev ? rtA : rtB;
         var next = useAasPrev ? rtB : rtA;
-
+        
         float fadeFactor = Mathf.Exp(-Mathf.Log(100f) * Time.deltaTime / BrushSettings.FadeAccumulation.Time.Value);
-
         BrushSettings.FadeAccumulation.Material.SetFloat("_FadeFactor", fadeFactor);
-
         // 合成
         Graphics.Blit(prev, next, BrushSettings.FadeAccumulation.Material);
+
+        // ピンポン
+        useAasPrev = !useAasPrev;
+    }
+
+    void BlitInkDrip()
+    {
+        var prev = useAasPrev ? rtA : rtB;
+        var next = useAasPrev ? rtB : rtA;
+        
+        BrushSettings.InkDrip.Material.SetFloat("_DripThreshold", BrushSettings.InkDrip.Threshold.Value);
+        BrushSettings.InkDrip.Material.SetFloat("_DripAmount", BrushSettings.InkDrip.Amount.Value);
+        // 合成
+        Graphics.Blit(prev, next, BrushSettings.InkDrip.Material);
+
         // ピンポン
         useAasPrev = !useAasPrev;
     }

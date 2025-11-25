@@ -60,6 +60,8 @@ Shader "Unlit/BrushShader"
             float  _Radius, _Feather, _FalloffPow, _BaseAlpha; // ブラシパラメータ
             float  _BrushStyle, _SprayDensity, _GrainScale, _Seed;           // ブラシスタイル（0=通常, 1=スプレー）
             sampler2D _NoiseTex;          // ノイズテクスチャ（スプレーブラシ用）
+            float _DripThreshold;
+            float _DripAmount;
 
             // 頂点シェーダーの入力構造体
             struct app { 
@@ -167,18 +169,13 @@ Shader "Unlit/BrushShader"
 
             /*
              * フラグメントシェーダー：各ピクセルの最終色を決定
-             * 
-             * === 固定機能アルファブレンド版 ===
-             * 標準的な透明描画：color.rgb, color.a を出力してBlend設定に任せる
-             * 
-             * === 重み付き平均（カスタムブレンド）版はコメントアウト ===
+             * === 重み付き平均 ===
              * 蓄積方式:
              * RGB = Σ(color_i * weight_i)  重み付き色の累積
              * A   = Σ(weight_i)            重みの累積
              * 最終色 = RGB / A             正規化で平均色を取得
              */
             fixed4 frag(v2f i) : SV_Target{
-                // === 固定機能アルファブレンド版 ===
                 
                 // アスペクト比補正された半径
                 float Riso = _Radius * (_MainTex_TexelSize.y / _MainTex_TexelSize.x);
@@ -211,14 +208,20 @@ Shader "Unlit/BrushShader"
 
                 if (style == 2)
                 {
-                    m = MaskCapsuleHard(i.uv, _PrevPos.xy, _CurrPos.xy, Riso);
-                    // まず過去の色をマスク範囲内で完全削除
-                    acc.rgb *= (1.0 - m);
-                    acc.a   *= (1.0 - m);
+                    // 完全塗りつぶし用の硬いマスク
+                    float m = MaskCapsuleHard(i.uv, _PrevPos.xy, _CurrPos.xy, Riso);
 
-                    // その上に今回の色を完全塗りつぶし (w=1固定 or _BaseAlphaで調整可)
-                    float3 outRgb = acc.rgb + _BrushColor.rgb * m;
-                    float  outW   = acc.a   + m;
+                    float prevW = acc.a;                 // これまでの厚み（Σw）
+                    float addW  = m;        // 今フレームで追加する厚み
+                    float newW  = prevW + addW;          // べた塗り後の厚み
+
+                    // べた塗り後の「理想的な累積RGB」
+                    //   Σrgb = BrushColor * Σw  となるように再構成
+                    float3 newAccumRgb = _BrushColor.rgb * newW;
+
+                    // マスク外(m=0)は元の値のまま、マスク内(m=1)は上記に差し替え
+                    float3 outRgb = lerp(acc.rgb, newAccumRgb, m);
+                    float  outW   = lerp(prevW,   newW,        m);
 
                     return float4(outRgb, outW);
                 }

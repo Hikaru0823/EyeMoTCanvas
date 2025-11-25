@@ -1,42 +1,41 @@
+using System;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class SizeOptionUI : MonoBehaviour
+public class PenSizeOptionUI : SimpleHighlightSelecterOptionUI
 {
-    [SerializeField] private Slider slider;
-    [SerializeField] private Image previewImage;
-    [SerializeField] private UnityEvent<float> onValueChanged;
-    [ReadOnly,SerializeField] private float minValue = 0.01f;
-    [ReadOnly, SerializeField] private float maxValue = 0.04f;
-    [ReadOnly,SerializeField] private float currentValue;
+    [SerializeField] private Image previewIcon;
+    [SerializeField] PensizeOption[] pensizeOptions;
+    [SerializeField] private OptionTab optionTab;
 
-    private void Start()
+    void Start()
     {
-        // 初期値を設定
-        var initialValue = Mathf.InverseLerp(minValue, maxValue, currentValue);
-        slider.value = initialValue;
-        UpdatePreviewImage();
+        Init(pensizeOptions);
     }
 
-    public void OnValueChanged(float value)
+    public override void OnOptionSelected(OptionButtonResources option)
     {
-        // valueは0〜1の範囲で、0の時minValue、1の時maxValueになるよう線形補間
-        var newValue = Mathf.Lerp(minValue, maxValue, value);
-        currentValue = newValue;
-        onValueChanged.Invoke(currentValue);
-        UpdatePreviewImage();
+        base.OnOptionSelected(option);
+        previewIcon.transform.localScale = option.PreviewImage.transform.localScale;
+        GpuPainter.Instance.SetPenSize((option as PensizeOption).Size);
+        optionTab.CloseAllTabs();
     }
 
-    private void UpdatePreviewImage()
+    #if UNITY_EDITOR
+    /// <summary>
+    /// インスペクターで値が変更された時に呼ばれる（エディタのみ）
+    /// </summary>
+    void OnValidate()
     {
-        if (previewImage != null)
-        {
-            Vector2 sizeDelta = previewImage.rectTransform.sizeDelta;
-            sizeDelta.x = currentValue * 4000f; // currentValueを使用してプレビューサイズを調整
-            sizeDelta.y = currentValue * 4000f; // 縦横比を保つため
-            previewImage.rectTransform.sizeDelta = sizeDelta;
-        }
+        AutoAssign(pensizeOptions);
     }
+    #endif
+}
+
+[Serializable]
+public class PensizeOption : OptionButtonResources
+{
+    public float Size;
 }

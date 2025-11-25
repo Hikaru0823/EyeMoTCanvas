@@ -49,6 +49,17 @@ public class FadeAccumulation
 }
 
 [System.Serializable]
+public class InkDrip
+{
+    public bool Enabled = false;
+    public Material Material;
+    [Tooltip("どれくらい塗り重ねたら垂れ始めるか")]
+    public ClampedValue<float> Threshold = new ClampedValue<float>(50f, 1f, 100f);
+    [Tooltip("1フレームでどれだけ流すか")]
+    public ClampedValue<float> Amount = new ClampedValue<float>(0.1f, 0, 1);
+}
+
+[System.Serializable]
 public class Rainbow
 {
     public RainbowType Type = RainbowType.None;
@@ -77,6 +88,8 @@ public class BrushSettings
     public LineInterpolation LineInterpolation;
     [Header("蓄積薄化設定")]
     public FadeAccumulation FadeAccumulation;
+    [Header("ドリップ設定")]
+    public InkDrip InkDrip;
     [Header("虹色設定")]
     public Rainbow Rainbow;
     [Header("スプレー設定")]
@@ -91,6 +104,9 @@ public class BrushSettings
         SpeedVariation_Sensitivity,
         FadeAccumulation_Enabled,
         FadeAccumulation_Time,
+        InkDrip_Enabled,
+        InkDrip_Threshold,
+        InkDrip_Amount
     }
     
     public BrushSettings()
@@ -99,9 +115,12 @@ public class BrushSettings
         SpeedVariation = new SpeedVariation();
         LineInterpolation = new LineInterpolation();
         FadeAccumulation = new FadeAccumulation();
+        InkDrip = new InkDrip();
         Rainbow = new Rainbow();
         Spray = new Spray();
     }
+
+    #region 設定項目
 
     public void SetValue<T>(ModifiableProperty property, T value)
     {
@@ -135,6 +154,18 @@ public class BrushSettings
                 if (value is float fadeTime)
                     FadeAccumulation.Time.Value = fadeTime;
                 break;
+            case ModifiableProperty.InkDrip_Enabled:
+                if (value is bool dripEnabled)
+                    InkDrip.Enabled = dripEnabled;
+                break;
+            case ModifiableProperty.InkDrip_Threshold:
+                if (value is float threshold)
+                    InkDrip.Threshold.Value = threshold;
+                break;
+            case ModifiableProperty.InkDrip_Amount:
+                if (value is float amount)
+                    InkDrip.Amount.Value = amount;
+                break;
         }
     }
 
@@ -165,6 +196,15 @@ public class BrushSettings
             case ModifiableProperty.FadeAccumulation_Time:
                 result = FadeAccumulation.Time;
                 break;
+            case ModifiableProperty.InkDrip_Enabled:
+                result = InkDrip.Enabled;
+                break;
+            case ModifiableProperty.InkDrip_Threshold:
+                result = InkDrip.Threshold;
+                break;
+            case ModifiableProperty.InkDrip_Amount:
+                result = InkDrip.Amount;
+                break;
         }
 
         if (result is T typedResult)
@@ -174,4 +214,5 @@ public class BrushSettings
         
         return default(T);
     }
+    # endregion
 }

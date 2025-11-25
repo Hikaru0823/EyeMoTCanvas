@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hidden_FadeAccum
-  m_Shader: {fileID: 4800000, guid: af403b933f88088489bfdbda15b87237, type: 3}
+  m_Name: Unlit_InkDrip
+  m_Shader: {fileID: 4800000, guid: 56ac9eef3e2863443bff0deac946fa91, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -29,6 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FadeFactor: 0.99540544
+    - _DripAmount: 0
+    - _DripThreshold: 18.1375
     m_Colors: []
   m_BuildTextureStacks: []

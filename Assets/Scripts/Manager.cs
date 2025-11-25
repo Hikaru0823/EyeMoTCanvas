@@ -12,9 +12,9 @@ public class Manager : Singleton<Manager>
     void Start()
     {
         //optionMenuAnimator.Play(ResourcesManager.Panel_Out);
-        ColorParetUI.Instance.Animator.Play(ResourcesManager.Panel_In);
+        //ColorParetUI.Instance.Animator.Play(ResourcesManager.Panel_In);
         BrushSelecterUI.Instance.Animator.Play(ResourcesManager.Panel_In);
-        BGSelecterUI.Instance.Animator.Play(ResourcesManager.Panel_In);
+        //BGSelecterUI.Instance.Animator.Play(ResourcesManager.Panel_In);
         rightOptionTabAnimator.Play(ResourcesManager.Panel_In);
         leftOptionTabAnimator.Play(ResourcesManager.Panel_In);
     }   

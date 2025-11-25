@@ -34,22 +34,24 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddMode: 0
-    - _BaseAlpha: 0.2
+    - _BaseAlpha: 0.041882813
     - _BrushHardness: 0
     - _BrushRadius: 0.244
     - _BrushStyle: 0
+    - _DripAmount: 0.15
+    - _DripThreshold: 2
     - _EdgeFeather: 0.35
     - _Erase: 0
     - _FalloffPow: 2
     - _Feather: 0.4
     - _GrainScale: 700
-    - _Radius: 0.02
+    - _Radius: 0.03
     - _Seed: 0
     - _SprayDensity: 0.4
     - _UnionMask: 0
     m_Colors:
-    - _BrushColor: {r: 0, g: 1, b: 0.60399985, a: 1}
+    - _BrushColor: {r: 0, g: 1, b: 0, a: 1}
     - _BrushPos: {r: 0.73903793, g: 0.42233858, b: 0, a: 0}
-    - _CurrPos: {r: 0.31035256, g: 0.8497726, b: 0, a: 0}
-    - _PrevPos: {r: 0.31361368, g: 0.8420428, b: 0, a: 0}
+    - _CurrPos: {r: 0.49273407, g: 0.9949421, b: 0, a: 0}
+    - _PrevPos: {r: 0.49475238, g: 0.988723, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -94,7 +94,7 @@ public class ScreenCaptureDisplay : Singleton<ScreenCaptureDisplay>
         #endif
         // キャプチャフォルダのパスを設定（.exeと同じ階層に作成）
         capturePath = Path.Combine(Application.dataPath, "..", captureFolder);
-        capturePath = Path.GetFullPath(capturePath); // 相対パスを絶対パスに変換
+        //capturePath = Path.GetFullPath(capturePath); // 相対パスを絶対パスに変換
         
         // フォルダが存在しない場合は作成
         if (!Directory.Exists(capturePath))

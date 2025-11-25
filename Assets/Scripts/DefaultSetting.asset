@@ -66,6 +66,17 @@ MonoBehaviour:
         Value: 5
         Min: 0.1
         Max: 20
+    InkDrip:
+      Enabled: 1
+      Material: {fileID: 2100000, guid: 66ed38566273694419883a293e1c4fc8, type: 2}
+      Threshold:
+        Value: 50
+        Min: 1
+        Max: 100
+      Amount:
+        Value: 0
+        Min: 0
+        Max: 1
     Rainbow:
       Type: 0
       Speed:
