@@ -42,5 +42,8 @@ public class Manager : Singleton<Manager>
         #if !UNITY_WEBGL
         Application.Quit();
         #endif
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
 }
