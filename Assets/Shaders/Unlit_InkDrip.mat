@@ -29,7 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DripAmount: 0
+    - _DripAmount: 0.13413334
     - _DripThreshold: 18.1375
     m_Colors: []
   m_BuildTextureStacks: []
